@@ -1,0 +1,95 @@
+@use "@/styles/lib/variables.scss" as *;
+@use "@/styles/lib/mixins.scss" as *;
+
+.flashInfoBanner {
+  display: flex;
+  display: grid;
+  flex-direction: column;
+  grid-template: "controls . close" min-content "content content content" 1fr / min-content 1fr min-content;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+  padding: var(--spacing-04) var(--padding-h-sm) var(--padding-v-sm) var(--padding-h-sm);
+
+  @include breakpoint(desktop up) {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-08);
+    align-items: center;
+    padding: var(--padding-v-sm);
+  }
+
+  &.color-primary {
+    color: var(--color-text-on-primary);
+    background-color: var(--color-primary-brand);
+
+    --button-hover-color: var(--color-primary-brand);
+    --button-hover-background: var(--color-text-on-primary);
+  }
+
+  &.color-secondary {
+    color: var(--color-text-on-secondary);
+    background-color: var(--color-secondary-brand);
+
+    --button-hover-color: var(--color-text-default);
+    --button-hover-background: var(--color-text-on-secondary);
+  }
+
+  &.color-tertiary {
+    color: var(--color-text-on-tertiary);
+    background-color: var(--color-tertiary-brand);
+
+    --button-hover-color: var(--color-text-default);
+    --button-hover-background: var(--color-text-on-tertiary);
+  }
+
+  &.color-neutral {
+    color: var(--color-text-brand);
+    background-color: var(--color-surface-default);
+
+    --button-hover-color: var(--color-text-on-primary);
+    --button-hover-background: var(--color-text-brand);
+
+    .bannerContent .content {
+      color: var(--color-text-default);
+    }
+  }
+}
+
+.bannerContent {
+  grid-area: content;
+
+  @include breakpoint(desktop up) {
+    flex-grow: 1;
+  }
+}
+
+.closeButton {
+  display: flex;
+  grid-area: close;
+  gap: var(--spacing-sm);
+  align-items: center;
+  justify-content: center;
+  height: var(--spacing-08);
+  padding-inline: var(--spacing-05);
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  border-radius: var(--border-radius-xs);
+  transition:
+    background 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+
+  i {
+    font-size: var(--font-size-sm);
+  }
+
+  @include breakpoint(desktop up) {
+    order: 2;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--button-hover-color);
+    background-color: var(--button-hover-background);
+  }
+}

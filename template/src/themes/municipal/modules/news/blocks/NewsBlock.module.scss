@@ -1,0 +1,37 @@
+// MUNICIPAL THEME — NewsBlock override
+// Adds brand background to news blocks in the municipal theme.
+@use "@/styles/lib/mixins" as *;
+
+.news {
+  width: 100%;
+  margin-block: var(--spacing-3xl);
+  container: block-news / inline-size;
+  padding: var(--spacing-lg);
+  background-color: var(--color-primary-brand-subtle);
+  border-radius: var(--border-radius-md);
+}
+
+.titleWrapper {
+  margin-bottom: var(--spacing-xl);
+}
+
+.tags {
+  margin-top: var(--spacing-md);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+
+  @include breakpoint(tablet up) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include breakpoint(desktop up) {
+    display: flex;
+    flex-direction: row;
+  }
+}

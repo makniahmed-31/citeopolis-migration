@@ -1,0 +1,15 @@
+@use "@/styles/lib/mixins" as *;
+
+.list {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: 1fr;
+
+  @include breakpoint(tablet up) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint(desktop up) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

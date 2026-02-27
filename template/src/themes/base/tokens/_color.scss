@@ -1,0 +1,135 @@
+// BASE THEME — Color tokens
+// These are the defaults. Child/parent themes override via [data-theme="..."].
+:root {
+  // ─── Palette primitives ────────────────────────────────────────────────────
+  --color-primary-50: #e5ecfa;
+  --color-primary-100: #ccdaf5;
+  --color-primary-200: #98b4eb;
+  --color-primary-300: #658fe1;
+  --color-primary-400: #3269d7;
+  --color-primary-500: #214fab;
+  --color-primary-600: #1a3f89;
+  --color-primary-700: #142f67;
+  --color-primary-800: #0d2044;
+
+  --color-secondary-50: #f3fcfa;
+  --color-secondary-100: #e3f7f3;
+  --color-secondary-200: #c3eee6;
+  --color-secondary-300: #9ce3d5;
+  --color-secondary-400: #74d7c4;
+  --color-secondary-500: #3ec8ad;
+  --color-secondary-600: #33b399;
+  --color-secondary-700: #2d9f88;
+  --color-secondary-800: #258370;
+
+  --color-tertiary-50: #fdf9f1;
+  --color-tertiary-100: #fcf3e4;
+  --color-tertiary-200: #f8e8c9;
+  --color-tertiary-300: #f5dcad;
+  --color-tertiary-400: #f1d092;
+  --color-tertiary-500: #eec478;
+  --color-tertiary-600: #e6a938;
+  --color-tertiary-700: #be8418;
+  --color-tertiary-800: #7f5810;
+
+  --color-neutral-0: #fff;
+  --color-neutral-100: #f7f7f7;
+  --color-neutral-200: #efefef;
+  --color-neutral-300: #c5c5c5;
+  --color-neutral-400: #9c9c9c;
+  --color-neutral-500: #707070;
+  --color-neutral-600: #5a5a5a;
+  --color-neutral-700: #363636;
+  --color-neutral-800: #2a2a2a;
+  --color-neutral-900: #1f1f1f;
+  --color-neutral-1000: #000;
+
+  --color-system-info-300: #f1f5fb;
+  --color-system-info-400: #488fdb;
+  --color-system-info-500: #366dd1;
+  --color-system-positive-300: #ebfcee;
+  --color-system-positive-400: #2e9f4b;
+  --color-system-positive-500: #298243;
+  --color-system-warning-300: #fff2e1;
+  --color-system-warning-400: #e86f00;
+  --color-system-warning-500: #bc4b00;
+  --color-system-negative-300: #fee;
+  --color-system-negative-400: #f7504d;
+  --color-system-negative-500: #d51100;
+
+  // ─── Brand semantic aliases ────────────────────────────────────────────────
+  --color-primary-brand: var(--color-primary-500);
+  --color-primary-brand-high: var(--color-primary-400);
+  --color-primary-brand-low: var(--color-primary-600);
+  --color-primary-brand-medium: var(--color-primary-100);
+  --color-primary-brand-subtle: var(--color-primary-50);
+  --color-primary-brand-on-light: var(--color-primary-500);
+  --color-primary-brand-on-dark: var(--color-primary-50);
+
+  --color-secondary-brand: var(--color-secondary-500);
+  --color-secondary-brand-high: var(--color-secondary-300);
+  --color-secondary-brand-low: var(--color-secondary-600);
+  --color-secondary-brand-medium: var(--color-secondary-200);
+  --color-secondary-brand-subtle: var(--color-secondary-100);
+  --color-secondary-brand-on-light: var(--color-secondary-800);
+  --color-secondary-brand-on-dark: var(--color-secondary-100);
+
+  --color-tertiary-brand: var(--color-tertiary-500);
+  --color-tertiary-brand-high: var(--color-tertiary-300);
+  --color-tertiary-brand-low: var(--color-tertiary-600);
+  --color-tertiary-brand-medium: var(--color-tertiary-200);
+  --color-tertiary-brand-subtle: var(--color-tertiary-100);
+  --color-tertiary-brand-on-light: var(--color-tertiary-800);
+  --color-tertiary-brand-on-dark: var(--color-tertiary-100);
+
+  // ─── Surface ───────────────────────────────────────────────────────────────
+  --color-surface-default: var(--color-neutral-0);
+  --color-surface-disabled-minimal: var(--color-neutral-100);
+  --color-surface-disabled: var(--color-neutral-300);
+  --color-surface-hover: var(--color-neutral-200);
+  --color-surface-popover: var(--color-neutral-0);
+  --color-surface-inverted: var(--color-neutral-1000);
+  --color-surface-minimal: var(--color-neutral-100);
+  --color-surface-secondary: var(--color-neutral-500);
+  --color-surface-on-primary: var(--color-neutral-0);
+  --color-surface-on-secondary: var(--color-neutral-1000);
+  --color-surface-on-tertiary: var(--color-neutral-1000);
+
+  // ─── Text ──────────────────────────────────────────────────────────────────
+  --color-text-brand: var(--color-primary-brand);
+  --color-text-brand-low: var(--color-primary-brand-low);
+  --color-text-brand-secondary: var(--color-secondary-brand-on-light);
+  --color-text-brand-tertiary: var(--color-tertiary-brand-on-light);
+  --color-text-secondary: var(--color-neutral-700);
+  --color-text-default: var(--color-neutral-1000);
+  --color-text-disabled: var(--color-neutral-300);
+  --color-text-inverted: var(--color-neutral-0);
+  --color-text-subtle: var(--color-neutral-500);
+  --color-text-on-dark: var(--color-neutral-0);
+  --color-text-on-light: var(--color-neutral-1000);
+  --color-text-on-primary: var(--color-neutral-0);
+  --color-text-on-secondary: var(--color-neutral-1000);
+  --color-text-on-tertiary: var(--color-neutral-1000);
+  --color-default: var(--color-neutral-1000);
+  --color-inverted: var(--color-neutral-0);
+  --color-placeholder-dim1: var(--color-neutral-200);
+  --color-placeholder-dim2: var(--color-neutral-300);
+  --color-placeholder-dim3: var(--color-neutral-500);
+  --color-placeholder-dim4: var(--color-neutral-700);
+
+  // ─── Borders ───────────────────────────────────────────────────────────────
+  --color-border-dark: var(--color-neutral-1000);
+  --color-border-default: var(--color-neutral-500);
+  --color-border-disabled: var(--color-neutral-300);
+  --color-border-focus: var(--color-neutral-1000);
+  --color-border-inverted: var(--color-neutral-0);
+  --color-border-main: var(--color-primary-brand);
+  --color-border-subtle: var(--color-neutral-300);
+
+  // ─── Typography color ──────────────────────────────────────────────────────
+  --color-title-h1: var(--color-text-on-light);
+  --color-title-h2: var(--color-primary-brand);
+  --color-title-h3: var(--color-text-brand-low);
+  --color-title-h4: var(--color-text-default);
+  --color-title-h5: var(--color-text-secondary);
+}

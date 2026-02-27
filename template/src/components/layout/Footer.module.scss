@@ -1,0 +1,19 @@
+@use "@/styles/lib/mixins" as *;
+
+.footer {
+  width: 100%;
+  padding-block: var(--spacing-xl);
+  background-color: var(--footer-bg);
+  color: var(--footer-color);
+}
+
+.inner {
+  max-width: 1216px;
+  padding-inline: var(--spacing-lg);
+  margin-inline: auto;
+}
+
+.copy {
+  font-size: var(--font-size-text-small);
+  opacity: 0.8;
+}

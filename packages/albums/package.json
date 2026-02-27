@@ -1,0 +1,10 @@
+{
+  "name": "@citeopolis/albums",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./block": "./src/blocks/block.ts"
+  }
+}

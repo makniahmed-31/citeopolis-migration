@@ -1,0 +1,80 @@
+@use "@/styles/lib/mixins" as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--button-font-family);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--button-border-radius);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+
+  &:focus-visible {
+    @include native-outline;
+  }
+}
+
+// ─── Variants ─────────────────────────────────────────────────────────────────
+.contained {
+  color: var(--color-text-on-primary);
+  background-color: var(--button-color-surface-primary);
+  border: var(--button-border-stroke) solid var(--button-color-surface-primary);
+
+  &:hover,
+  &:focus {
+    background-color: var(--button-color-surface-primary-hover);
+    border-color: var(--button-color-surface-primary-hover);
+  }
+}
+
+.outlined {
+  color: var(--button-color-text-brand);
+  background-color: transparent;
+  border: var(--button-border-stroke) solid var(--button-color-surface-secondary);
+
+  &:hover,
+  &:focus {
+    background-color: var(--button-color-surface-secondary-hover);
+  }
+}
+
+.text {
+  color: var(--button-color-text-brand);
+  background-color: transparent;
+  border: none;
+  padding-inline: 0;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+}
+
+// ─── Sizes ────────────────────────────────────────────────────────────────────
+.sm {
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-text-small);
+}
+
+.md {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-text-base);
+}
+
+.lg {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-text-base);
+}
+
+// ─── Icons ────────────────────────────────────────────────────────────────────
+.icon {
+  font-size: 1em;
+  flex-shrink: 0;
+}
+
+.iconEnd {
+  order: 1;
+}

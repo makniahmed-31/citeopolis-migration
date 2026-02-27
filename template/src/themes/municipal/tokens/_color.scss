@@ -1,0 +1,17 @@
+// MUNICIPAL THEME — Color overrides only.
+// Inherits everything else from base via CSS cascade.
+:root[data-theme="municipal"] {
+  // Slightly deeper primary blue for municipalities
+  --color-primary-50: #e8eef8;
+  --color-primary-100: #d0ddf1;
+  --color-primary-200: #a1bae3;
+  --color-primary-300: #7398d5;
+  --color-primary-400: #4475c6;
+  --color-primary-500: #1a5c8a;
+  --color-primary-600: #154a6e;
+  --color-primary-700: #103852;
+  --color-primary-800: #0a2637;
+
+  // All semantic aliases (--color-primary-brand, etc.) automatically
+  // pick up the new primitive values via var() references.
+}

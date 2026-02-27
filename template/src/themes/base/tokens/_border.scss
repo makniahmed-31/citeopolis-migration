@@ -1,0 +1,17 @@
+:root {
+  --border-radius-none: 0;
+  --border-radius-xs: 4px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --border-radius-round: 1500px;
+  --border-radius-default: var(--border-radius-xs);
+  --border-radius-popover: var(--border-radius-sm);
+  --border-radius-dialog: var(--border-radius-md);
+
+  --border-stroke-hairline: 1px;
+  --border-stroke-thin: 2px;
+  --border-stroke-medium: 4px;
+  --border-stroke-thick: 8px;
+}

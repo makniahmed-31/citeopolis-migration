@@ -1,0 +1,57 @@
+@use "@/styles/lib/helpers" as *;
+
+.item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 200ms ease;
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.link {
+  display: block;
+  text-decoration: none;
+  color: var(--color-text-default);
+
+  &:focus-visible {
+    outline: var(--border-stroke-thin) solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+.cover {
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    transition: transform 300ms ease;
+  }
+
+  .item:hover & img {
+    transform: scale(1.04);
+  }
+}
+
+.info {
+  padding: var(--spacing-md);
+  background-color: var(--color-surface-default);
+}
+
+.title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-sm);
+  margin-bottom: var(--spacing-xs);
+}
+
+.count {
+  font-size: var(--font-size-text-small);
+  color: var(--color-text-subtle);
+}

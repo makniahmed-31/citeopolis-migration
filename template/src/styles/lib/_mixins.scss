@@ -1,0 +1,171 @@
+// Copied verbatim from the original template/styles/lib/_mixins.scss
+// Keep in sync with the original.
+
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "sass:string";
+@use "variables" as *;
+
+@function to-list($value) {
+  @if meta.type-of($value) != list {
+    @return ($value,);
+  }
+
+  @return $value;
+}
+
+@function map-next($map, $key) {
+  $values: map.keys($map);
+  $i: 0;
+
+  @if map.has-key($map, $key) {
+    $i: list.index($values, $key) + 1;
+  }
+
+  @if $i > list.length($map) or $i == 0 {
+    @return null;
+  } @else {
+    @return map.get($map, list.nth($values, $i));
+  }
+}
+
+@mixin breakpoint($request) {
+  @if list.nth(map.values($breakpoints), 1) != 0 {
+    @error 'Your smallest breakpoint must be set to "0".';
+  }
+
+  $request: to-list($request);
+  $size: list.nth($request, 1);
+  $direction: list.nth($request, 2);
+
+  @if not list.index((only, down, up), $direction) {
+    @error "No such direction: #{$direction}";
+  }
+
+  $bp: 0;
+
+  @if map.has-key($breakpoints, $size) {
+    $bp: map.get($breakpoints, $size);
+  } @else {
+    @error "No such breakpoint: #{$size}";
+  }
+
+  $bp2: map-next($breakpoints, $size);
+  $edge-values: $bp == 0 or $bp2 == null;
+
+  @if $bp == 0 {
+    @if $direction == only or $direction == down {
+      @media screen and (max-width: #{$bp2 - 1}) {
+        @content;
+      }
+    } @else {
+      @content;
+    }
+  }
+
+  @if not $bp2 {
+    @if $direction == down {
+      @content;
+    } @else {
+      @media screen and (min-width: $bp) {
+        @content;
+      }
+    }
+  }
+
+  @if $direction == down and not $edge-values {
+    @media screen and (max-width: #{$bp2 - 1}) {
+      @content;
+    }
+  } @else if $direction == only and not $edge-values {
+    @media screen and (min-width: $bp) and (max-width: #{$bp2 - 1}) {
+      @content;
+    }
+  } @else if not $edge-values {
+    @media screen and (min-width: $bp) {
+      @content;
+    }
+  }
+}
+
+@mixin on-event {
+  &:hover,
+  &:focus,
+  &:focus-within {
+    @content;
+  }
+}
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin absolute($params...) {
+  position: absolute;
+
+  @if list.length($params) > 0 {
+    @if list.length($params) == 1 {
+      $params: list.nth($params, 1);
+    }
+
+    $props: (top, right, bottom, left);
+
+    @for $index from 1 through list.length($params) {
+      #{list.nth($props, $index)}: list.nth($params, $index);
+    }
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute !important;
+  top: auto !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+@mixin font-style($identifier) {
+  font-family: var(--font-family-#{$identifier});
+  font-size: var(--font-size-#{$identifier});
+  font-weight: var(--font-weight-#{$identifier});
+  line-height: var(--line-height-#{$identifier});
+}
+
+@mixin multiline-underline($size: 0.09em, $color: currentColor) {
+  text-decoration: none;
+  outline: none !important;
+  background-image: linear-gradient(transparent calc(100% - #{$size}), #{$color} #{$size});
+  background-repeat: no-repeat;
+  background-size: 0 100%;
+  transition: background-size 300ms ease-in-out;
+}
+
+@mixin native-outline {
+  outline: 5px auto Highlight;
+  outline: 5px auto -webkit-focus-ring-color;
+}
+
+@mixin remove-list-styles {
+  list-style-type: "";
+}
+
+@mixin restore-list-styles {
+  list-style-type: revert;
+}
+
+@mixin full-width-block {
+  position: relative;
+  left: 50%;
+  width: calc(100vw - var(--scrollbar-width, 0px));
+  max-width: 1920px;
+  padding: 0;
+  margin: 0;
+  transform: translateX(-50%);
+}

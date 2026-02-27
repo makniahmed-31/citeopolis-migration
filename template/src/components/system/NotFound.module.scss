@@ -1,0 +1,38 @@
+@use "@/styles/lib/mixins" as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.code {
+  font-size: var(--font-size-display-1);
+  font-weight: var(--font-weight-extra-bold);
+  color: var(--color-primary-brand);
+  line-height: 1;
+  margin-bottom: var(--spacing-md);
+}
+
+.title {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-md);
+}
+
+.message {
+  font-size: var(--font-size-text-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xl);
+  max-width: 480px;
+}
+
+.link {
+  color: var(--color-primary-brand);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+}

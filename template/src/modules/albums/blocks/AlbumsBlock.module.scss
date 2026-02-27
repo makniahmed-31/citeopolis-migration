@@ -1,0 +1,30 @@
+@use "@/styles/lib/mixins" as *;
+
+.albums {
+  width: 100%;
+  margin-block: var(--spacing-3xl);
+}
+
+.title {
+  margin-bottom: var(--spacing-xl);
+}
+
+.list {
+  display: grid;
+  gap: var(--spacing-lg);
+  grid-template-columns: 1fr;
+
+  @include breakpoint(tablet up) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include breakpoint(desktop up) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.actions {
+  margin-top: var(--spacing-xl);
+  display: flex;
+  justify-content: center;
+}

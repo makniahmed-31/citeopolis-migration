@@ -1,0 +1,89 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+html {
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-text-default);
+  background-color: var(--color-surface-default);
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-text-base);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.sr-only {
+  @include visually-hidden;
+}
+
+.contained {
+  width: 100%;
+  max-width: 1216px;
+  padding-inline: var(--block-padding-inline, 0);
+  margin-inline: auto;
+
+  .layout-1column-fullwidth .column.main > & {
+    @include breakpoint(mobile only) {
+      --block-padding-inline: 16px;
+    }
+
+    @include breakpoint(tablet only) {
+      --block-padding-inline: 24px;
+    }
+  }
+}
+
+.container {
+  max-width: 1216px;
+  margin-inline: auto;
+
+  @include breakpoint(mobile only) {
+    padding-inline: 16px;
+  }
+
+  @include breakpoint(tablet only) {
+    padding-inline: 24px;
+  }
+}
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.site-content {
+  flex: 1;
+  flex-basis: 0;
+  outline-offset: #{$focus-outline-offset * -1};
+}
+
+.block {
+  margin-block: var(--spacing-lg);
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+:root {
+  --header-height: 108px;
+
+  @include breakpoint(tablet up) {
+    --header-height: 112px;
+  }
+
+  @include breakpoint(desktop up) {
+    --header-height: 168px;
+  }
+}

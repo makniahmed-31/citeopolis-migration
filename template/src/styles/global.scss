@@ -1,0 +1,21 @@
+// ══════════════════════════════════════════════════════════════════════════════
+// GLOBAL STYLESHEET
+// ══════════════════════════════════════════════════════════════════════════════
+
+// ─── 1. Fonts ─────────────────────────────────────────────────────────────────
+@use "../themes/base/fonts/fonts";
+
+// ─── 2. Base Theme Tokens (always loaded — applies to :root) ──────────────────
+@use "../themes/base/tokens/index";
+
+// ─── 3. Theme Overrides (higher specificity via :root[data-theme="..."]) ──────
+//        Add a line here for every theme that needs to be bundled.
+//        The active theme is set at runtime via applyTheme() in main.tsx.
+@use "../themes/municipal/tokens/index" as municipal-tokens;
+// @use "../themes/metropolis/tokens/index" as metropolis-tokens;
+
+// ─── 4. Base Styles (theme-agnostic) ─────────────────────────────────────────
+@use "lib/reset";
+@use "lib/base";
+@use "lib/layout";
+@use "lib/helpers";

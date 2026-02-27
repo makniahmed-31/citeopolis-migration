@@ -1,0 +1,25 @@
+// Component-level tokens — override per theme without touching component code.
+:root {
+  // ─── Button ────────────────────────────────────────────────────────────────
+  --button-font-family: var(--font-family-primary);
+  --button-border-radius: var(--border-radius-default);
+  --button-border-stroke: var(--border-stroke-thin);
+  --button-color-surface-primary: var(--color-primary-brand);
+  --button-color-surface-primary-hover: var(--color-primary-brand-high);
+  --button-color-surface-secondary: var(--color-primary-brand);
+  --button-color-surface-secondary-hover: var(--color-primary-brand-subtle);
+  --button-color-text-brand: var(--color-primary-brand-on-light);
+
+  // ─── Link ──────────────────────────────────────────────────────────────────
+  --link-color-brand: var(--color-primary-brand-on-light);
+
+  // ─── Header ────────────────────────────────────────────────────────────────
+  --header-height: 108px;
+  --header-bg: var(--color-surface-default);
+  --header-color: var(--color-text-default);
+  --header-border: var(--color-border-subtle);
+
+  // ─── Footer ────────────────────────────────────────────────────────────────
+  --footer-bg: var(--color-primary-800);
+  --footer-color: var(--color-text-on-dark);
+}

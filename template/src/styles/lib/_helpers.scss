@@ -1,0 +1,60 @@
+@use "mixins" as *;
+@use "variables" as *;
+
+%visually-hidden {
+  @include visually-hidden;
+}
+
+%font-inherit {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+%clear-list-styles {
+  padding: 0;
+  margin: 0;
+}
+
+%clear-button-styles {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+
+  @include on-event {
+    cursor: pointer;
+  }
+}
+
+%text-wrap {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+%underline {
+  @include multiline-underline;
+
+  @include on-event {
+    outline: none !important;
+    background-size: 100% 100% !important;
+  }
+}
+
+%link-block {
+  text-decoration: none;
+
+  &::after {
+    @include absolute(0, 0);
+    @include size(100%);
+
+    z-index: $layer-link-block;
+    display: block;
+    content: "";
+  }
+
+  &:focus-visible::after {
+    @include native-outline;
+  }
+}

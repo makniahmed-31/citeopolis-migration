@@ -1,0 +1,31 @@
+@use "mixins" as *;
+
+// Single column full-width layout (used by homepage and news pages)
+.layout-1column-fullwidth {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .column.main {
+    width: 100%;
+  }
+}
+
+// Two column layout with sidebar
+.layout-2columns-right {
+  display: grid;
+  gap: var(--grid-gutter);
+  grid-template-columns: 1fr;
+
+  @include breakpoint(desktop up) {
+    grid-template-columns: 1fr 340px;
+  }
+
+  .column.main {
+    min-width: 0;
+  }
+
+  .column.sidebar {
+    min-width: 0;
+  }
+}

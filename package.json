@@ -1,0 +1,22 @@
+{
+  "name": "citeopolis-migration",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @citeopolis/template dev",
+    "build": "pnpm --filter @citeopolis/template build",
+    "storybook": "pnpm --filter @citeopolis/template storybook",
+    "generate": "pnpm --filter @citeopolis/template generate",
+    "test": "pnpm --filter @citeopolis/template test"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
+  },
+  "packageManager": "pnpm@10.27.0",
+  "engines": {
+    "node": "22.x || >=23.10"
+  }
+}

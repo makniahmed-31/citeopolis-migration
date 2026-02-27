@@ -1,0 +1,4 @@
+// Municipal theme token overrides.
+// Only defines what differs from the base theme.
+// Uses :root[data-theme="municipal"] for CSS specificity cascade.
+@forward "color";

@@ -1,0 +1,8 @@
+// Base theme tokens — loaded first, always.
+// All other themes override only what they need via :root[data-theme="*"].
+@forward "color";
+@forward "typography";
+@forward "spacing";
+@forward "border";
+@forward "effect";
+@forward "component";
