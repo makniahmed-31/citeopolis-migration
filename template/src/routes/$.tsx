@@ -1,25 +1,12 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { gql } from "@apollo/client/core";
 import { lazy, Suspense } from "react";
 import { getApolloClient } from "@/lib/graphql";
-import type { RouteType } from "@/generated/graphql/graphql";
+import {
+  GetRouteDocument,
+  type GetRouteQuery,
+} from "@/generated/graphql/graphql";
 import ErrorBoundary from "@components/system/ErrorBoundary";
 import NotFound from "@components/system/NotFound";
-
-// ─── GraphQL Route Query ───────────────────────────────────────────────────────
-const ROUTE_QUERY = gql`
-  query GetRoute($url: URL!) {
-    route(url: $url) {
-      __typename
-      ... on Redirect {
-        redirectCode
-        url
-      }
-      ... on Page { url }
-      ... on News { url }
-    }
-  }
-`;
 
 // ─── Page Component Registry ───────────────────────────────────────────────────
 const pageComponents: Record<string, React.LazyExoticComponent<React.ComponentType<{ url: string }>>> = {
@@ -35,21 +22,19 @@ export const Route = createFileRoute("/$")({
 
     const client = getApolloClient();
 
-    let data: { route?: RouteType } | null = null;
+    let route: GetRouteQuery["route"] = null;
 
     try {
-      const result = await client.query<{ route: RouteType }>({
-        query: ROUTE_QUERY,
+      const result = await client.query<GetRouteQuery>({
+        query: GetRouteDocument,
         variables: { url },
         errorPolicy: "all",
       });
-      data = result.data ?? null;
+      route = result.data?.route ?? null;
     } catch (err) {
       console.error("Route query failed:", err);
       throw err;
     }
-
-    const route = data?.route;
 
     if (route?.__typename === "Redirect" && route.url) {
       throw redirect({
@@ -68,6 +53,7 @@ export const Route = createFileRoute("/$")({
   component: CatchAllPage,
 });
 
+// ─── Component ────────────────────────────────────────────────────────────────
 function CatchAllPage() {
   const { typename, url } = Route.useLoaderData();
 

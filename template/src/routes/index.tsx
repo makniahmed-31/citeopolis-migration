@@ -1,46 +1,67 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { gql } from "@apollo/client/core";
-import { lazy, Suspense } from "react";
+import { useEffect } from "react";
 import { getApolloClient } from "@/lib/graphql";
-import type { RouteType } from "@/generated/graphql/graphql";
+import type { BlockInterface } from "@/generated/graphql/graphql";
 import ErrorBoundary from "@components/system/ErrorBoundary";
 import NotFound from "@components/system/NotFound";
+import BlockRenderer from "@/components/blocks/BlockRenderer";
 
+// ─── GraphQL Route Query ───────────────────────────────────────────────────────
 const ROUTE_QUERY = gql`
   query GetHomepage {
     route(url: "/") {
       __typename
+
       ... on Redirect {
         redirectCode
         url
       }
-      ... on Page { url }
-      ... on News { url }
+
+      ... on Page {
+        url
+        title
+        structuredContent
+      }
     }
   }
 `;
 
-const pageComponents: Record<string, React.LazyExoticComponent<React.ComponentType<{ url: string }>>> = {
-  Page: lazy(() => import("@/pages/PagePage")),
-  News: lazy(() => import("@/pages/news/NewsPage")),
-};
+interface HomepageRoute {
+  __typename?: string;
+  url?: string | null;
+  redirectCode?: number | null;
+  title?: string | null;
+  structuredContent?: (BlockInterface & { __typename: string })[] | null;
+}
 
+// ─── Route ────────────────────────────────────────────────────────────────────
 export const Route = createFileRoute("/")({
   async loader() {
     const client = getApolloClient();
 
-    const result = await client.query<{ route: RouteType }>({
-      query: ROUTE_QUERY,
-      errorPolicy: "all",
-    });
+    let route: HomepageRoute | null = null;
 
-    const route = result.data?.route ?? null;
+    try {
+      const result = await client.query<{ route?: HomepageRoute | null }>({
+        query: ROUTE_QUERY,
+        errorPolicy: "all",
+      });
+      route = result.data?.route ?? null;
+    } catch (err) {
+      console.error("Route query failed:", err);
+      throw err;
+    }
 
     if (route?.__typename === "Redirect" && route.url) {
       throw redirect({ href: route.url, statusCode: route.redirectCode ?? 302 });
     }
 
-    return { typename: route?.__typename ?? null, url: "/" };
+    return {
+      typename: route?.__typename ?? null,
+      title: route?.__typename === "Page" ? (route.title ?? null) : null,
+      structuredContent: route?.__typename === "Page" ? (route.structuredContent ?? null) : null,
+    };
   },
 
   errorComponent: ({ error }) => (
@@ -50,20 +71,21 @@ export const Route = createFileRoute("/")({
   component: IndexPage,
 });
 
+// ─── Component ────────────────────────────────────────────────────────────────
 function IndexPage() {
-  const { typename, url } = Route.useLoaderData();
+  const { typename, title, structuredContent } = Route.useLoaderData();
+
+  useEffect(() => {
+    if (title) document.title = title;
+  }, [title]);
 
   if (!typename) return <NotFound />;
 
-  const Component = pageComponents[typename];
-
-  if (!Component) return <NotFound />;
-
   return (
-    <ErrorBoundary>
-      <Suspense fallback={<div className="sr-only">Chargement…</div>}>
-        <Component url={url} />
-      </Suspense>
-    </ErrorBoundary>
+    <div className="layout-1column-fullwidth">
+      <div className="column main">
+        <BlockRenderer structuredContent={structuredContent} />
+      </div>
+    </div>
   );
 }

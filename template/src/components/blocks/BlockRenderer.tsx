@@ -76,7 +76,10 @@ export default function BlockRenderer({
         }
 
         const Component = components.get(typename);
-        if (!Component) return null; // module not installed — silent skip
+        if (!Component) {
+          console.log(`[BlockRenderer] no component for block "${typename}"`);
+          return null;
+        }
 
         return (
           <Suspense
