@@ -1,5 +1,5 @@
 {
-  "name": "@citeopolis/albums",
+  "name": "@packages/albums",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -7,5 +7,12 @@
     ".": "./src/index.ts",
     "./block": "./src/blocks/block.ts",
     "./manifest": "./src/manifest.ts"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1"
+  },
+  "peerDependencies": {
+    "@tanstack/react-router": ">=1",
+    "react": ">=19.0.0"
   }
 }

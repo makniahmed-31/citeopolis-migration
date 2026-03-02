@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import FlashInfoBanner, { FLASH_INFO_CLOSED_KEY } from "./FlashInfoBanner";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { FlashInfoBanner, FLASH_INFO_CLOSED_KEY } from "@packages/flash-info";
 
 const meta: Meta<typeof FlashInfoBanner> = {
   title: "Components/FlashInfoBanner",

@@ -12,17 +12,65 @@ importers:
         specifier: ^5.7.3
         version: 5.9.3
 
+  packages/albums:
+    dependencies:
+      '@tanstack/react-router':
+        specifier: '>=1'
+        version: 1.163.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.4
+
+  packages/flash-info:
+    dependencies:
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.4
+      react-dom:
+        specifier: '>=19.0.0'
+        version: 19.2.4(react@19.2.4)
+      swiper:
+        specifier: ^12.1.2
+        version: 12.1.2
+      usehooks-ts:
+        specifier: ^3.1.1
+        version: 3.1.1(react@19.2.4)
+
+  packages/news:
+    dependencies:
+      '@tanstack/react-router':
+        specifier: '>=1'
+        version: 1.163.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.4
+
   template:
     dependencies:
       '@apollo/client':
         specifier: ^4.0.5
         version: 4.1.6(graphql-ws@6.0.7(graphql@16.13.0)(ws@8.19.0))(graphql@16.13.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rxjs@7.8.2)
+      '@packages/albums':
+        specifier: workspace:*
+        version: link:../packages/albums
+      '@packages/flash-info':
+        specifier: workspace:*
+        version: link:../packages/flash-info
+      '@packages/news':
+        specifier: workspace:*
+        version: link:../packages/news
       '@tanstack/react-router':
         specifier: ^1.114.0
         version: 1.163.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
       react:
         specifier: ^19.0.0
         version: 19.2.4
@@ -84,6 +132,9 @@ importers:
       change-case:
         specifier: ^5.4.4
         version: 5.4.4
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       dotenv-cli:
         specifier: ^8.0.0
         version: 8.0.0

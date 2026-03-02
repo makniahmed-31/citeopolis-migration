@@ -1,31 +1,26 @@
 /**
  * Feature module autoloader.
  *
- * Discovers feature manifests from src/modules/*\/manifest.ts using Vite's
- * import.meta.glob — the Vite equivalent of webpack's require.context.
+ * Block components are discovered from installed @packages/* workspace
+ * packages via a Vite virtual module (see vite-plugin-modules.ts).
+ * Only packages listed in package.json dependencies are included — so
+ * adding or removing a package with `pnpm add / remove` directly controls
+ * which blocks are registered (after a dev server restart).
  *
- * Each manifest explicitly declares which block components and page components
- * the feature contributes. The autoloader merges them into typed registries
- * that BlockRenderer and the catch-all route consume.
+ * Page components (template-specific, e.g. NewsPage) are declared in
+ * local manifests under src/modules/{name}/manifest.ts and merged in at
+ * load time.
  *
- * ─── Adding a local module ────────────────────────────────────────────────────
- * Create src/modules/{name}/manifest.ts exporting a FeatureManifest.
- * The autoloader picks it up automatically — no registration needed.
- *
- * ─── Future: workspace / npm packages ────────────────────────────────────────
- * When features move to packages\/*\/src\/manifest.ts, add a second glob:
- *
- *   const pkgModules = import.meta.glob<ManifestModule>(
- *     "../../packages\/*\/src\/manifest.ts",
- *     { eager: true },
- *   );
- *
- * Merge pkgModules into manifestModules and rebuild the registries.
- * No other changes needed — BlockRenderer and $.tsx stay untouched.
+ * ─── Adding a new feature package ────────────────────────────────────────────
+ * 1. pnpm add @packages/{name}  (adds it to package.json + node_modules)
+ * 2. Restart the dev server — the virtual module picks it up automatically.
+ * 3. Optionally create src/modules/{name}/manifest.ts if the feature needs
+ *    a template-side page component (typename → lazy page loader).
  */
 
 import { lazy } from "react";
 import type { ComponentType } from "react";
+import pkgManifests from "virtual:@packages/manifests";
 
 // ─── Public interface ──────────────────────────────────────────────────────────
 
@@ -57,27 +52,24 @@ export interface FeatureManifest {
   >;
 }
 
-// ─── Manifest discovery ────────────────────────────────────────────────────────
+// ─── Local page manifests ──────────────────────────────────────────────────────
+// Declare template-side page components for features that need them.
+// Must NOT redeclare blocks — those come from the virtual module above.
 
 type ManifestModule = { default: FeatureManifest };
 
-const manifestModules = import.meta.glob<ManifestModule>(
+const localManifests = import.meta.glob<ManifestModule>(
   "../modules/*/manifest.ts",
   { eager: true },
 );
-
-/** All discovered feature manifests, in filesystem order. */
-export const featureManifests: FeatureManifest[] = Object.values(
-  manifestModules,
-).map((m) => m.default);
 
 // ─── Block registry ────────────────────────────────────────────────────────────
 
 /**
  * Maps GraphQL __typename → lazy React block component.
- * Built at module-load time from all discovered manifests.
+ * Populated from installed @packages/* manifests only.
  *
- * Example: "NewsBlock" → lazy(() => import("@/modules/news/blocks/block"))
+ * Example: "NewsBlock" → lazy(() => import("@packages/news/blocks/block"))
  */
 export const blockRegistry = new Map<
   string,
@@ -88,11 +80,18 @@ export const blockRegistry = new Map<
 
 /**
  * Maps GraphQL route __typename → lazy React page component.
- * Built at module-load time from all discovered manifests.
+ * Populated from local src/modules/{name}/manifest.ts files.
  *
  * Example: "News" → lazy(() => import("@/pages/news/NewsPage"))
  */
 export const pageRegistry = new Map<string, ComponentType<{ url: string }>>();
+
+// ─── All manifests: package blocks + local pages ───────────────────────────────
+
+export const featureManifests: FeatureManifest[] = [
+  ...pkgManifests,
+  ...Object.values(localManifests).map((m) => m.default),
+];
 
 // ─── Build registries ──────────────────────────────────────────────────────────
 

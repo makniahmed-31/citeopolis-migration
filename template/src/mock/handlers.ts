@@ -67,6 +67,21 @@ function mockNewsBlock() {
   };
 }
 
+/** Returns flash-info items for sites with the flash-info capability. */
+function mockFlashInfos() {
+  return [
+    {
+      __typename: "FlashInfo",
+      id: 1,
+      modifiedDate: "2026-03-01",
+      title: "Travaux rue de la République du 25 au 28 juin.",
+      description:
+        "Des travaux de réfection de la chaussée auront lieu cette semaine. Prévoir des ralentissements.",
+      url: null,
+    },
+  ];
+}
+
 /** Returns an AlbumsBlock with demo albums. */
 function mockAlbumsBlock() {
   return {
@@ -166,7 +181,13 @@ function getMockResponse(
         },
       };
 
-    default:
+    case "GetFlashInfos": {
+      const siteConfig = resolveSiteConfig(getHostname());
+      const items = siteConfig.features.includes("flash-info") ? mockFlashInfos() : [];
+      return { data: { flashInfoSearch: { items, __typename: "FlashInfoSearchResponse" } } };
+    }
+
+        default:
       console.warn(`[mock] Unhandled operation: ${operationName}`, variables);
       return {
         data: null,

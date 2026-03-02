@@ -24,3 +24,9 @@ declare module "*.svg?react" {
 
 declare const __THEME__: string;
 declare const __SITE__: string;
+
+declare module "virtual:@packages/manifests" {
+  import type { FeatureManifest } from "@/lib/autoloader";
+  const manifests: FeatureManifest[];
+  export default manifests;
+}

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import AlbumsBlock from "./AlbumsBlock";
+import { AlbumsBlock } from "@packages/albums";
 
 const mockAlbums = [
   {

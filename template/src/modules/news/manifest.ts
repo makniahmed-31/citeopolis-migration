@@ -1,28 +1,17 @@
 import type { FeatureManifest } from "@/lib/autoloader";
 
 /**
- * News feature manifest.
+ * News page manifest (template-side).
  *
- * Declares the block components and page components contributed by the news
- * feature. Discovered automatically by the autoloader — no manual registration
- * needed anywhere else.
+ * Blocks are registered automatically from the installed @packages/news
+ * package via the virtual module in vite-plugin-modules.ts.
  *
- * Future: this file moves to packages/news/src/manifest.ts when the feature
- * is extracted into a standalone workspace package.
+ * This file only declares the page component — the detail view rendered
+ * when the GraphQL router returns a "News" typename.
  */
 const manifest: FeatureManifest = {
   slug: "news",
-
-  blocks: {
-    // GraphQL typename "NewsBlock" → src/modules/news/blocks/NewsBlock.tsx
-    NewsBlock: () =>
-      import("./blocks/block") as Promise<{
-        default: React.ComponentType<Record<string, unknown>>;
-      }>,
-  },
-
   pages: {
-    // GraphQL route typename "News" → src/pages/news/NewsPage.tsx
     News: () =>
       import("../../pages/news/NewsPage") as Promise<{
         default: React.ComponentType<{ url: string }>;

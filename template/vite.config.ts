@@ -4,6 +4,7 @@ import path from "node:path";
 import process from "node:process";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
+import { modulesPlugin } from "./src/lib/vite-plugin-modules";
 import { themePlugin } from "./src/lib/vite-plugin-theme";
 
 // Active theme and site — set via .env or CLI env vars
@@ -15,6 +16,21 @@ export default defineConfig({
     // Listen on all interfaces so metropolis.localhost / base.localhost
     // resolve correctly on WSL2 without mirrored networking mode.
     host: true,
+    // Allow serving files from workspace packages outside the template root.
+    fs: { allow: [".."] },
+  },
+
+  // Workspace packages are source-only (no build step). Their CJS dependencies
+  // (swiper, usehooks-ts) must be listed here so Vite pre-bundles them on the
+  // first cold start without requiring a reinstall to refresh the dep cache.
+  optimizeDeps: {
+    include: [
+      "@packages/flash-info > swiper",
+      "@packages/flash-info > usehooks-ts",
+      "@packages/flash-info > clsx",
+      "@packages/news > clsx",
+      "@packages/albums > clsx",
+    ],
   },
 
   plugins: [
@@ -25,6 +41,8 @@ export default defineConfig({
     }),
     react(),
     svgr({ include: /\.svg$/ }),
+    // Block manifest discovery from installed @packages/* workspace packages
+    modulesPlugin(__dirname),
     // Theme component resolution chain
     themePlugin({ theme: THEME, site: SITE }),
   ],

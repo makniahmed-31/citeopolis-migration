@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import NewsBlock from "./NewsBlock";
+import { NewsBlock } from "@packages/news";
 
 const mockNews = [
   {

@@ -3,6 +3,7 @@ import { Suspense, useMemo } from "react";
 import { resolveComponent } from "@/lib/componentRegistry";
 import { useTheme } from "@/lib/theme";
 import Footer from "@/components/layout/Footer";
+import FlashInfoBar from "@/components/layout/FlashInfoBar";
 import MinisiteDevBar from "@/components/dev/MinisiteDevBar";
 
 /**
@@ -37,6 +38,7 @@ function RootLayout() {
       <Suspense fallback={null}>
         <Header />
       </Suspense>
+      <FlashInfoBar />
       <main id="main" className="site-content" tabIndex={-1}>
         <Outlet />
       </main>
