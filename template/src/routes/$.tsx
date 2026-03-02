@@ -1,18 +1,47 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { gql } from "@apollo/client/core";
 import { lazy, Suspense } from "react";
 import { getApolloClient } from "@/lib/graphql";
-import {
-  GetRouteDocument,
-  type GetRouteQuery,
-} from "@/generated/graphql/graphql";
 import ErrorBoundary from "@components/system/ErrorBoundary";
 import NotFound from "@components/system/NotFound";
+import { pageRegistry } from "@/lib/autoloader";
+
+// ─── GraphQL Query ─────────────────────────────────────────────────────────────
+
+const GET_ROUTE = gql`
+  query GetRoute($url: URL!) {
+    route(url: $url) {
+      __typename
+
+      ... on Redirect {
+        redirectCode
+        url
+      }
+    }
+  }
+`;
+
+interface RouteResult {
+  route?: {
+    __typename?: string;
+    redirectCode?: number | null;
+    url?: string | null;
+  } | null;
+}
 
 // ─── Page Component Registry ───────────────────────────────────────────────────
-const pageComponents: Record<string, React.LazyExoticComponent<React.ComponentType<{ url: string }>>> = {
-  Page: lazy(() => import("@/pages/PagePage")),
-  News: lazy(() => import("@/pages/news/NewsPage")),
-};
+//
+// Core pages are declared here (always available).
+// Feature pages (News, Albums, etc.) are auto-discovered from
+// src/modules/*/manifest.ts via the autoloader — no manual entry needed.
+
+const pageComponents: Map<string, React.ComponentType<{ url: string }>> =
+  new Map([
+    // Core: generic WordPress page renderer
+    ["Page", lazy(() => import("@/pages/PagePage"))],
+    // Feature pages from installed modules
+    ...pageRegistry,
+  ]);
 
 // ─── Route ────────────────────────────────────────────────────────────────────
 export const Route = createFileRoute("/$")({
@@ -22,11 +51,11 @@ export const Route = createFileRoute("/$")({
 
     const client = getApolloClient();
 
-    let route: GetRouteQuery["route"] = null;
+    let route: RouteResult["route"] = null;
 
     try {
-      const result = await client.query<GetRouteQuery>({
-        query: GetRouteDocument,
+      const result = await client.query<RouteResult>({
+        query: GET_ROUTE,
         variables: { url },
         errorPolicy: "all",
       });
@@ -47,7 +76,9 @@ export const Route = createFileRoute("/$")({
   },
 
   errorComponent: ({ error }) => (
-    <ErrorBoundary error={error instanceof Error ? error : new Error(String(error))} />
+    <ErrorBoundary
+      error={error instanceof Error ? error : new Error(String(error))}
+    />
   ),
 
   component: CatchAllPage,
@@ -59,10 +90,12 @@ function CatchAllPage() {
 
   if (!typename) return <NotFound />;
 
-  const Component = pageComponents[typename];
+  const Component = pageComponents.get(typename);
 
   if (!Component) {
-    console.warn(`CatchAllPage: no page component registered for typename "${typename}"`);
+    console.warn(
+      `CatchAllPage: no page component registered for typename "${typename}"`,
+    );
     return <NotFound />;
   }
 

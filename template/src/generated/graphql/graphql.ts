@@ -4884,6 +4884,13 @@ export type SiteConfig = {
   extranet?: Maybe<ExtranetConfig>;
   /** Website favicon. */
   favicon?: Maybe<Scalars['URL']['output']>;
+  /**
+   * The list of enabled feature-module slugs for this site
+   * (e.g. ["news", "albums", "flash-infos"]).
+   * Controls which blocks BlockRenderer is allowed to render.
+   * An empty list means every installed block is allowed.
+   */
+  features: Array<Scalars['String']['output']>;
   /** The footer configuration data. */
   footer?: Maybe<FooterConfig>;
   /** The Google Translate configuration data. */
@@ -4914,6 +4921,11 @@ export type SiteConfig = {
   socialLinks: Array<SocialLink>;
   /** Displays buttons to share the current page on social networks. */
   socialShare: Scalars['Boolean']['output'];
+  /**
+   * The active theme slug for this site (e.g. "municipal", "metropolis").
+   * Resolved by the backend from the request's Host header.
+   */
+  theme?: Maybe<Scalars['String']['output']>;
   /** Verification codes for webmaster tools and search engine ownership validation. */
   verificationCodes: Array<VerificationCode>;
 };
@@ -5446,7 +5458,7 @@ export type WebsitesBlockItem = {
 export type GetSiteConfigQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSiteConfigQuery = { __typename?: 'Query', siteConfig?: { __typename?: 'SiteConfig', siteName: string } | null };
+export type GetSiteConfigQuery = { __typename?: 'Query', siteConfig?: { __typename?: 'SiteConfig', siteName: string, theme?: string | null, features: Array<string> } | null };
 
 export type NewsItemFragmentFragment = { __typename?: 'News', id: number, title?: string | null, url?: string | null, publicationDate?: any | null, leadText?: string | null, images?: { __typename?: 'ImageCollection', ratio_3x2?: { __typename?: 'Image', url: string, width: number, height: number, alt?: string | null } | null } | null, categories: Array<{ __typename?: 'Category', title: string }> } & { ' $fragmentName'?: 'NewsItemFragmentFragment' };
 
@@ -5501,42 +5513,6 @@ export type GetNewsQuery = { __typename?: 'Query', route?:
     | { __typename?: 'ResolutionList' }
    | null };
 
-export type GetRouteQueryVariables = Exact<{
-  url: Scalars['URL']['input'];
-}>;
-
-
-export type GetRouteQuery = { __typename?: 'Query', route?:
-    | { __typename: 'Album' }
-    | { __typename: 'AlbumList' }
-    | { __typename: 'Comarquage' }
-    | { __typename: 'Directory' }
-    | { __typename: 'DirectoryList' }
-    | { __typename: 'DirectoryMap' }
-    | { __typename: 'Event' }
-    | { __typename: 'EventList' }
-    | { __typename: 'EventMap' }
-    | { __typename: 'ExtranetHome' }
-    | { __typename: 'ExtranetLogin' }
-    | { __typename: 'GlobalMap' }
-    | { __typename: 'GlobalSearch' }
-    | { __typename: 'JobOffer' }
-    | { __typename: 'JobOfferList' }
-    | { __typename: 'News', url?: string | null }
-    | { __typename: 'NewsList' }
-    | { __typename: 'NewsMap' }
-    | { __typename: 'Newsletter' }
-    | { __typename: 'NewsletterList' }
-    | { __typename: 'Page', url?: string | null }
-    | { __typename: 'Publication' }
-    | { __typename: 'PublicationList' }
-    | { __typename: 'Question' }
-    | { __typename: 'QuestionList' }
-    | { __typename: 'Redirect', redirectCode?: number | null, url?: string | null }
-    | { __typename: 'Resolution' }
-    | { __typename: 'ResolutionList' }
-   | null };
-
 export type GetHomepageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -5556,12 +5532,12 @@ export type GetHomepageQuery = { __typename?: 'Query', route?:
     | { __typename: 'GlobalSearch' }
     | { __typename: 'JobOffer' }
     | { __typename: 'JobOfferList' }
-    | { __typename: 'News', url?: string | null }
+    | { __typename: 'News' }
     | { __typename: 'NewsList' }
     | { __typename: 'NewsMap' }
     | { __typename: 'Newsletter' }
     | { __typename: 'NewsletterList' }
-    | { __typename: 'Page', url?: string | null }
+    | { __typename: 'Page', url?: string | null, title?: string | null, structuredContent?: (BlockInterface & { __typename: string })[] | null }
     | { __typename: 'Publication' }
     | { __typename: 'PublicationList' }
     | { __typename: 'Question' }
@@ -5573,8 +5549,7 @@ export type GetHomepageQuery = { __typename?: 'Query', route?:
 
 export const NewsItemFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NewsItemFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"News"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"publicationDate"}},{"kind":"Field","name":{"kind":"Name","value":"leadText"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ratio_3x2"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<NewsItemFragmentFragment, unknown>;
 export const NewsBlockFragmentFragmentDoc = {"kind":"Document","definitions":[{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NewsBlockFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"NewsBlock"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"anchor"}},{"kind":"Field","name":{"kind":"Name","value":"listUrl"}},{"kind":"Field","name":{"kind":"Name","value":"proposeUrl"}},{"kind":"Field","name":{"kind":"Name","value":"focusedNews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NewsItemFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"news"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"FragmentSpread","name":{"kind":"Name","value":"NewsItemFragment"}}]}},{"kind":"Field","name":{"kind":"Name","value":"briefNews"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"publicationDate"}}]}}]}},{"kind":"FragmentDefinition","name":{"kind":"Name","value":"NewsItemFragment"},"typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"News"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"publicationDate"}},{"kind":"Field","name":{"kind":"Name","value":"leadText"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ratio_3x2"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<NewsBlockFragmentFragment, unknown>;
-export const GetSiteConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetSiteConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"siteConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"siteName"}}]}}]}}]} as unknown as DocumentNode<GetSiteConfigQuery, GetSiteConfigQueryVariables>;
+export const GetSiteConfigDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetSiteConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"siteConfig"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"siteName"}},{"kind":"Field","name":{"kind":"Name","value":"theme"}},{"kind":"Field","name":{"kind":"Name","value":"features"}}]}}]}}]} as unknown as DocumentNode<GetSiteConfigQuery, GetSiteConfigQueryVariables>;
 export const GetPageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"url"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"page"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"Variable","name":{"kind":"Name","value":"url"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"structuredContent"}}]}}]}}]} as unknown as DocumentNode<GetPageQuery, GetPageQueryVariables>;
 export const GetNewsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetNews"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"url"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"URL"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"route"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"Variable","name":{"kind":"Name","value":"url"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"News"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"leadText"}},{"kind":"Field","name":{"kind":"Name","value":"publicationDate"}},{"kind":"Field","name":{"kind":"Name","value":"modifiedDate"}},{"kind":"Field","name":{"kind":"Name","value":"structuredContent"}},{"kind":"Field","name":{"kind":"Name","value":"images"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"ratio_3x2"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"width"}},{"kind":"Field","name":{"kind":"Name","value":"height"}},{"kind":"Field","name":{"kind":"Name","value":"alt"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"categories"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"level"}}]}},{"kind":"Field","name":{"kind":"Name","value":"breadcrumbs"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"metadata"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"description"}}]}}]}}]}}]}}]} as unknown as DocumentNode<GetNewsQuery, GetNewsQueryVariables>;
-export const GetRouteDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetRoute"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"url"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"URL"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"route"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"Variable","name":{"kind":"Name","value":"url"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Redirect"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"redirectCode"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Page"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"News"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<GetRouteQuery, GetRouteQueryVariables>;
-export const GetHomepageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetHomepage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"route"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"StringValue","value":"/","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Redirect"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"redirectCode"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Page"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"News"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}}]}}]}}]}}]} as unknown as DocumentNode<GetHomepageQuery, GetHomepageQueryVariables>;
+export const GetHomepageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetHomepage"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"route"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"StringValue","value":"/","block":false}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"__typename"}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Redirect"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"redirectCode"}},{"kind":"Field","name":{"kind":"Name","value":"url"}}]}},{"kind":"InlineFragment","typeCondition":{"kind":"NamedType","name":{"kind":"Name","value":"Page"}},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"url"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"structuredContent"}}]}}]}}]}}]} as unknown as DocumentNode<GetHomepageQuery, GetHomepageQueryVariables>;

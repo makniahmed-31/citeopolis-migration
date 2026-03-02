@@ -21,7 +21,9 @@ export default function PagePage({ url }: PagePageProps) {
   const { data, loading, error } = useQuery<{
     page?: {
       title?: string | null;
-      structuredContent?: Parameters<typeof BlockRenderer>[0]["structuredContent"];
+      structuredContent?: Parameters<
+        typeof BlockRenderer
+      >[0]["structuredContent"];
     };
   }>(PAGE_QUERY, { variables: { url } });
 
@@ -31,10 +33,15 @@ export default function PagePage({ url }: PagePageProps) {
     }
   }, [data?.page?.title]);
 
-  if (loading) return <div className="sr-only" aria-live="polite">Chargement…</div>;
+  if (loading)
+    return (
+      <div className="sr-only" aria-live="polite">
+        Chargement…
+      </div>
+    );
   if (error) throw error;
   if (!data?.page) return <NotFound />;
-
+  console.log("data.page.structuredContent", data.page.structuredContent);
   return (
     <div className="layout-1column-fullwidth">
       <div className="column main">

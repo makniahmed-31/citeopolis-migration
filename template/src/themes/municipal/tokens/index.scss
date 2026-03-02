@@ -1,4 +1,7 @@
-// Municipal theme token overrides.
-// Only defines what differs from the base theme.
-// Uses :root[data-theme="municipal"] for CSS specificity cascade.
-@forward "color";
+@use "color" as c;
+
+:root[data-theme="municipal"] {
+  --color-bg: c.$bg;        // map Sass variable to CSS variable
+  --color-text: c.$text;
+  --color-primary: c.$primary;
+}

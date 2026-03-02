@@ -2,15 +2,15 @@
 // Inherits everything else from base via CSS cascade.
 :root[data-theme="municipal"] {
   // Slightly deeper primary blue for municipalities
-  --color-primary-50: #e8eef8;
-  --color-primary-100: #d0ddf1;
-  --color-primary-200: #a1bae3;
-  --color-primary-300: #7398d5;
-  --color-primary-400: #4475c6;
-  --color-primary-500: #1a5c8a;
-  --color-primary-600: #154a6e;
-  --color-primary-700: #103852;
-  --color-primary-800: #0a2637;
+  --color-primary-50: #fff4e6;
+  --color-primary-100: #ffe3bf;
+  --color-primary-200: #ffc78f;
+  --color-primary-300: #ffab59;
+  --color-primary-400: #ff8f2a;
+  --color-primary-500: #ff6f00; // main orange
+  --color-primary-600: #e65a00;
+  --color-primary-700: #cc4700;
+  --color-primary-800: #b23600;
 
   // All semantic aliases (--color-primary-brand, etc.) automatically
   // pick up the new primitive values via var() references.

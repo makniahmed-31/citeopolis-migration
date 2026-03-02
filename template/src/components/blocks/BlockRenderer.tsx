@@ -1,42 +1,28 @@
-import { pascalCase } from "change-case";
-import { ComponentType, lazy, Suspense } from "react";
+import { Suspense } from "react";
 import type { BlockInterface } from "@/generated/graphql/graphql";
 import { useFeatures } from "@/lib/theme";
+import { blockRegistry } from "@/lib/autoloader";
 
 /**
- * Auto-registers all block components from feature modules.
- * Vite's import.meta.glob replaces webpack's require.context.
+ * Renders a structuredContent array from the GraphQL API.
  *
- * Convention: modules/{name}/blocks/block.ts → typename = PascalCase(name) + "Block"
- * Example:    modules/news/blocks/block.ts   → "NewsBlock"
+ * Block components are discovered automatically from feature manifests
+ * (src/modules\/*\/manifest.ts) via the autoloader — no manual registration
+ * needed here. See src/lib/autoloader.ts for details.
  *
  * Feature filtering (driven by siteConfig.features from BE):
- *   features = ["news", "albums"]   → only NewsBlock + AlbumsBlock render
- *   features = []                   → all installed blocks render (dev default)
- *   Missing component               → always silently skipped
+ *   features = ["news", "albums"]  → only NewsBlock + AlbumsBlock render
+ *   features = []                  → all installed blocks render (dev default)
  *
- * To add a feature module: create src/modules/{name}/blocks/block.ts
- * BlockRenderer auto-discovers it — no manual registration needed.
+ * To add a block: create src/modules/{name}/manifest.ts and register it there.
  */
-const blockEntries = import.meta.glob<{
-  default: ComponentType<Record<string, unknown>>;
-}>("../../modules/*/blocks/block.ts");
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const components = new Map<string, ComponentType<any>>();
-
-for (const [filepath, loader] of Object.entries(blockEntries)) {
-  const match = filepath.match(/modules\/([^/]+)\/blocks\/block\.ts$/);
-  if (!match) continue;
-  const typename = pascalCase(match[1]) + "Block"; // "news" → "NewsBlock"
-  components.set(typename, lazy(loader));
-}
 
 /**
- * Maps GraphQL typename back to the feature slug used in siteConfig.features.
- * "NewsBlock"      → "news"
- * "AlbumsBlock"    → "albums"
- * "FlashInfoBlock" → "flash-info"  (pascal→kebab, strip "Block")
+ * Maps a GraphQL block typename back to the feature slug used in
+ * siteConfig.features.  Examples:
+ *   "NewsBlock"      → "news"
+ *   "AlbumsBlock"    → "albums"
+ *   "FlashInfoBlock" → "flash-info"
  */
 function typenameToFeature(typename: string): string {
   return typename
@@ -66,8 +52,6 @@ export default function BlockRenderer({
         if (!typename) return null;
 
         // Feature gate: non-empty features list restricts which blocks render.
-        // This mirrors the BE behaviour (route 404 / structuredContent filtering)
-        // but provides an extra client-side guard for partial enablement.
         if (
           features.length > 0 &&
           !features.includes(typenameToFeature(typename))
@@ -75,7 +59,7 @@ export default function BlockRenderer({
           return null;
         }
 
-        const Component = components.get(typename);
+        const Component = blockRegistry.get(typename);
         if (!Component) {
           console.log(`[BlockRenderer] no component for block "${typename}"`);
           return null;

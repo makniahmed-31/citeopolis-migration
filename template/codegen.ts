@@ -16,6 +16,9 @@ const config: CodegenConfig = {
           },
         }
       : process.env.INTROSPECTION_URL!,
+    // Site factory extension: adds theme + features to SiteConfig.
+    // Remove once the upstream schema includes these fields.
+    "./src/mock/site-factory-extension.graphql",
   ],
   documents: ["./src/**/*.{ts,tsx}"],
   generates: {

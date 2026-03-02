@@ -1,7 +1,7 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { Suspense, useMemo } from "react";
 import { resolveComponent } from "@/lib/componentRegistry";
-import { useActiveTheme } from "@/lib/theme";
+import { useTheme } from "@/lib/theme";
 import Footer from "@/components/layout/Footer";
 
 /**
@@ -19,12 +19,12 @@ export const Route = createRootRoute({
 });
 
 function RootLayout() {
-  const theme = useActiveTheme();
+  const { theme } = useTheme();
 
   // Memoized: lazy() is only called once per theme change, not on every render
   const Header = useMemo(
     () => resolveComponent("layout/Header", theme),
-    [theme]
+    [theme],
   );
 
   return (

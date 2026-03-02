@@ -1,4 +1,4 @@
-import { useActiveTheme } from "@/lib/theme";
+import { useTheme } from "@/lib/theme";
 import styles from "./Header.module.scss";
 
 /**
@@ -9,7 +9,7 @@ import styles from "./Header.module.scss";
  * - Falls back to base Header if this file doesn't exist
  */
 export default function Header() {
-  const theme = useActiveTheme();
+  const { theme } = useTheme();
 
   return (
     <header className={styles.header} role="banner">
@@ -18,7 +18,9 @@ export default function Header() {
       </div>
       <div className={styles.inner}>
         <a href="/" className={styles.logo} aria-label="Accueil">
-          <span className={styles.logoIcon} aria-hidden>🏛</span>
+          <span className={styles.logoIcon} aria-hidden>
+            🏛
+          </span>
           <div className={styles.logoText}>
             <strong>Ville de Démo</strong>
             <span>Citéopolis Municipal</span>
@@ -26,9 +28,15 @@ export default function Header() {
         </a>
 
         <nav className={styles.nav} aria-label="Navigation principale">
-          <a href="/" className={styles.navLink}>Accueil</a>
-          <a href="/actualites" className={styles.navLink}>Actualités</a>
-          <a href="/albums" className={styles.navLink}>Albums</a>
+          <a href="/" className={styles.navLink}>
+            Accueil
+          </a>
+          <a href="/actualites" className={styles.navLink}>
+            Actualités
+          </a>
+          <a href="/albums" className={styles.navLink}>
+            Albums
+          </a>
         </nav>
       </div>
     </header>

@@ -11,6 +11,12 @@ const THEME = process.env.THEME ?? "base";
 const SITE = process.env.SITE ?? "demo";
 
 export default defineConfig({
+  server: {
+    // Listen on all interfaces so metropolis.localhost / base.localhost
+    // resolve correctly on WSL2 without mirrored networking mode.
+    host: true,
+  },
+
   plugins: [
     // TanStack Router file-based routing (auto-generates routeTree.gen.ts)
     TanStackRouterVite({

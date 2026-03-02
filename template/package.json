@@ -10,6 +10,7 @@
     "build-storybook": "pnpm run generate && storybook build",
     "generate": "dotenv -- graphql-codegen",
     "routes": "node scripts/generate-routes.mjs",
+    "generate:themes": "vite-node scripts/generate-themes-json.ts",
     "test": "vitest run",
     "lint:styles": "stylelint \"**/*.{scss,css}\""
   },

@@ -1,27 +1,29 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import { HttpLink } from "@apollo/client/link/http";
 import { getEnv } from "./env";
-
-// Placeholder until `pnpm generate` populates the real introspection file
-let introspectionData: { possibleTypes: Record<string, string[]> } = {
-  possibleTypes: {},
-};
-
-try {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  introspectionData = require("@/generated/graphql/introspection.json");
-} catch {
-  // Generated file not yet available — run `pnpm generate` first
-}
+import introspectionData from "@/generated/graphql/introspection.json";
+// Vite replaces import.meta.env at build time — this import is tree-shaken in production.
+import { mockLink } from "@/mock/handlers";
 
 let client: ApolloClient | null = null;
 
 /**
- * Returns a singleton Apollo Client for client-side GraphQL queries.
- * Replaces Next.js server-side registerApolloClient — all queries are client-side in this SPA.
+ * Returns the singleton Apollo Client used throughout the app.
+ *
+ * When VITE_MOCK_API=true the mock link is used so that both the ApolloProvider
+ * (used by useQuery hooks) and the route loaders (which call this function
+ * directly) share the same client and receive mock data.
  */
 export function getApolloClient(): ApolloClient {
   if (client) return client;
+
+  if (import.meta.env.VITE_MOCK_API === "true") {
+    client = new ApolloClient({
+      link: mockLink,
+      cache: new InMemoryCache(),
+    });
+    return client;
+  }
 
   const { GRAPHQL_URL } = getEnv();
 

@@ -1,0 +1,22 @@
+# Site factory schema extension.
+#
+# These fields are NOT in the upstream @citeopolis-graphql/schema package yet.
+# They represent the BE's domain-based site factory contract: given the HTTP Host
+# header, the WP backend resolves which theme and feature set the FE should activate.
+#
+# When the upstream schema adds them this file can be removed.
+extend type SiteConfig {
+  """
+  The active theme slug for this site (e.g. "municipal", "metropolis").
+  Resolved by the backend from the request's Host header.
+  """
+  theme: String
+
+  """
+  The list of enabled feature-module slugs for this site
+  (e.g. ["news", "albums", "flash-infos"]).
+  Controls which blocks BlockRenderer is allowed to render.
+  An empty list means every installed block is allowed.
+  """
+  features: [String!]!
+}

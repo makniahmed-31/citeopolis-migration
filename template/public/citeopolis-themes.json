@@ -1,0 +1,13 @@
+{
+  "themes": [
+    {
+      "name": "municipal",
+      "capabilities": ["news", "albums", "flash-info"],
+      "defaultColors": {
+        "primary": "#ff6f00",
+        "secondary": "#3ec8ad",
+        "tertiary": "#eec478"
+      }
+    }
+  ]
+}
