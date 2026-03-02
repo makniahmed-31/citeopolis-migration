@@ -1,0 +1,7 @@
+// MÉTROPOLITAIN THEME — Override the 3 base brand colors only.
+// Full 50–800 palettes auto-generate via OKLCH relative color syntax in base/_color.scss.
+:root[data-theme="metropolitain"] {
+  --color-primary:   #4338ca;
+  --color-secondary: #0891b2;
+  --color-tertiary:  #d97706;
+}

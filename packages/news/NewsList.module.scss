@@ -1,0 +1,16 @@
+@use "@/styles/lib/mixins.scss" as *;
+
+.newsList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xl);
+
+  @include breakpoint(tablet up) {
+    grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
+    gap: var(--spacing-xl) var(--grid-gutter);
+  }
+
+  @include breakpoint(desktop up) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}

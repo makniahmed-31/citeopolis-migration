@@ -1,0 +1,22 @@
+@use "@/styles/lib/mixins.scss" as *;
+@use "@/styles/lib/helpers.scss" as *;
+
+.newsBriefList {
+  margin-top: var(--spacing-xl);
+}
+
+.title {
+  @extend %font-style-h4;
+
+  margin-bottom: var(--grid-gutter);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gutter);
+
+  @include breakpoint(desktop up) {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}

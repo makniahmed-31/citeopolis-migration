@@ -8,6 +8,15 @@
         "secondary": "#3ec8ad",
         "tertiary": "#eec478"
       }
+    },
+    {
+      "name": "metropolitain",
+      "capabilities": ["news", "events", "cartography"],
+      "defaultColors": {
+        "primary": "#4338ca",
+        "secondary": "#0891b2",
+        "tertiary": "#d97706"
+      }
     }
   ]
 }

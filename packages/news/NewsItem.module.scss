@@ -1,0 +1,49 @@
+@use "@/styles/lib/mixins.scss" as *;
+@use "@/styles/lib/helpers.scss" as *;
+@use "@/styles/lib/variables.scss" as *;
+
+.newsItem {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: var(--spacing-md) var(--grid-gutter);
+
+  @include breakpoint(tablet up) {
+    flex-direction: column-reverse;
+  }
+}
+
+.content {
+  flex-grow: 1;
+  margin-top: 0;
+
+  @include breakpoint(tablet up) {
+    margin-top: var(--spacing-sm);
+  }
+}
+
+.title {
+  @extend %font-style-h5;
+}
+
+.titleLink {
+  @extend %link-block;
+  @extend %underline;
+}
+
+.category {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+}
+
+.image {
+  @include max-size(74px, 50px);
+
+  flex-shrink: 0;
+  width: 100%;
+  margin-bottom: 0;
+
+  @include breakpoint(tablet up) {
+    @include max-size(100%);
+  }
+}

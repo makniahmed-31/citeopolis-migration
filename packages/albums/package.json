@@ -5,6 +5,7 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
-    "./block": "./src/blocks/block.ts"
+    "./block": "./src/blocks/block.ts",
+    "./manifest": "./src/manifest.ts"
   }
 }

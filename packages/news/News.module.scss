@@ -1,0 +1,35 @@
+@use "@/styles/lib/mixins.scss" as *;
+@use "@/styles/lib/helpers.scss" as *;
+
+.news {
+  @extend %text-wrap;
+
+  width: 100%;
+  margin-block: var(--spacing-3xl);
+  container: block-news / inline-size;
+}
+
+.titleWrapper {
+  margin-bottom: var(--spacing-xl);
+}
+
+.tags {
+  margin-top: var(--spacing-md);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+
+  @include breakpoint(tablet up) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @include breakpoint(desktop up) {
+    display: flex;
+    flex-direction: row;
+  }
+}

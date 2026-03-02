@@ -23,5 +23,5 @@
       "@components/*": ["./src/components/*"]
     }
   },
-  "include": ["src", "sites", "src/types", "../codegen.ts"]
+  "include": ["src", "sites", "src/types", "../codegen.ts", "../packages/*/src"]
 }

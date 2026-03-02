@@ -1,0 +1,23 @@
+// Generates a 50–800 shade palette from a single base CSS custom property.
+// Uses CSS relative color syntax (oklch) — requires Sass 1.79+ and modern browsers.
+//
+// Usage (inside a selector):
+//   @include palette("primary", "--color-primary");
+//
+// Produces --color-{name}-50 through --color-{name}-800,
+// plus --color-{name}-500 aliased directly to the base variable.
+
+@mixin palette($name, $var) {
+  // Lighter shades — increase L, reduce C toward pure tint
+  --color-#{$name}-50:  oklch(from var(#{$var}) clamp(0, calc(l + 0.52), 1) clamp(0, calc(c * 0.15), 0.4) h);
+  --color-#{$name}-100: oklch(from var(#{$var}) clamp(0, calc(l + 0.42), 1) clamp(0, calc(c * 0.22), 0.4) h);
+  --color-#{$name}-200: oklch(from var(#{$var}) clamp(0, calc(l + 0.32), 1) clamp(0, calc(c * 0.40), 0.4) h);
+  --color-#{$name}-300: oklch(from var(#{$var}) clamp(0, calc(l + 0.20), 1) clamp(0, calc(c * 0.58), 0.4) h);
+  --color-#{$name}-400: oklch(from var(#{$var}) clamp(0, calc(l + 0.10), 1) clamp(0, calc(c * 0.80), 0.4) h);
+  // 500 = the base color itself
+  --color-#{$name}-500: var(#{$var});
+  // Darker shades — decrease L, slightly reduce C toward deep shade
+  --color-#{$name}-600: oklch(from var(#{$var}) clamp(0, calc(l - 0.07), 1) clamp(0, calc(c * 0.90), 0.4) h);
+  --color-#{$name}-700: oklch(from var(#{$var}) clamp(0, calc(l - 0.15), 1) clamp(0, calc(c * 0.78), 0.4) h);
+  --color-#{$name}-800: oklch(from var(#{$var}) clamp(0, calc(l - 0.24), 1) clamp(0, calc(c * 0.62), 0.4) h);
+}

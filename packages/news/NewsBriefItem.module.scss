@@ -1,0 +1,26 @@
+@use "@/styles/lib/variables.scss" as *;
+@use "@/styles/lib/mixins.scss" as *;
+@use "@/styles/lib/helpers.scss" as *;
+
+.briefNews {
+  position: relative;
+}
+
+.category {
+  display: block;
+  margin-bottom: var(--spacing-md);
+
+  @include breakpoint(desktop up) {
+    margin-bottom: var(--spacing-06);
+  }
+}
+
+.title {
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-base);
+}
+
+.titleLink {
+  @extend %link-block;
+  @extend %underline;
+}

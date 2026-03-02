@@ -1,0 +1,48 @@
+@use "@/styles/lib/mixins" as *;
+@use "@/styles/lib/helpers" as *;
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.image {
+  overflow: hidden;
+  border-radius: var(--border-radius-sm);
+
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    transition: transform 300ms ease;
+  }
+
+  &:hover img {
+    transform: scale(1.03);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.date {
+  font-size: var(--font-size-text-small);
+  color: var(--color-text-subtle);
+}
+
+.title {
+  font-size: var(--font-size-h5);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-sm);
+}
+
+.titleLink {
+  @extend %underline;
+
+  color: var(--color-text-default);
+}

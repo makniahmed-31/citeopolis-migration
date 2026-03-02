@@ -1,0 +1,82 @@
+@use "@/styles/lib/variables.scss" as *;
+@use "@/styles/lib/mixins.scss" as *;
+@use "@/styles/lib/helpers.scss" as *;
+
+.flashInfo {
+  @extend %text-wrap;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: center;
+  width: 100%;
+  text-align: center;
+
+  @include breakpoint(tablet up) {
+    flex-direction: row;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    text-align: left;
+  }
+}
+
+.topIcon {
+  font-size: var(--font-size-5xl);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.underline {
+  @extend %underline;
+  @extend %link-block;
+}
+
+a.content {
+  .underline {
+    @extend %underline;
+  }
+
+  &:focus-visible,
+  &:hover {
+    .underline {
+      background-size: 100% 100% !important;
+    }
+  }
+}
+
+.title {
+  display: inline-block;
+
+  @extend %font-style-text-2-compact;
+
+  font-weight: var(--font-weight-bold);
+}
+
+.description {
+  display: inline-block;
+
+  @extend %font-style-text-3;
+}
+
+.plusIcon {
+  font-size: var(--font-size-xs);
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: center;
+  justify-content: center;
+
+  @include breakpoint(tablet up) {
+    flex-direction: row;
+    gap: var(--spacing-lg);
+  }
+}

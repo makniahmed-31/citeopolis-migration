@@ -1,0 +1,34 @@
+@use "@/styles/lib/mixins.scss" as *;
+@use "@/styles/lib/helpers.scss" as *;
+
+.albums {
+  @extend %text-wrap;
+
+  width: 100%;
+  margin-block: var(--spacing-3xl);
+  container: block-albums / inline-size;
+}
+
+.title {
+  margin-bottom: var(--spacing-xl);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--grid-gutter);
+
+  @include breakpoint(tablet up) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacing-xl);
+
+  @include breakpoint(desktop up) {
+    flex-direction: row;
+  }
+}

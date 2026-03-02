@@ -16,6 +16,9 @@
   },
   "dependencies": {
     "@apollo/client": "^4.0.5",
+    "@citeopolis/albums": "workspace:*",
+    "@citeopolis/flash-info": "workspace:*",
+    "@citeopolis/news": "workspace:*",
     "@tanstack/react-router": "^1.114.0",
     "clsx": "^2.1.1",
     "react": "^19.0.0",

@@ -47,6 +47,12 @@ export const SITE_CONFIGS: SiteFactoryConfig[] = [
     features: ["news"],
   },
   {
+    hostname: "metropolitain.localhost",
+    siteName: "Métropole — Démo",
+    theme: "metropolitain",
+    features: ["news"],
+  },
+  {
     hostname: "base.localhost",
     siteName: "Site de Base — Démo",
     theme: "base",

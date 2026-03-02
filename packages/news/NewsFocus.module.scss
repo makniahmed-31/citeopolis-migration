@@ -1,0 +1,66 @@
+@use "@/styles/lib/variables.scss" as *;
+@use "@/styles/lib/mixins.scss" as *;
+@use "@/styles/lib/helpers.scss" as *;
+
+.newsFocus {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--spacing-07);
+  margin-bottom: var(--spacing-xl);
+
+  @include breakpoint(tablet up) {
+    flex-direction: row-reverse;
+    gap: var(--grid-gutter);
+    justify-content: left;
+  }
+
+  @include breakpoint(desktop up) {
+    gap: 32px var(--grid-gutter);
+  }
+}
+
+.image {
+  flex-grow: 1;
+  width: 100%;
+
+  @container (min-width: 720px) {
+    max-width: 348px;
+  }
+
+  @container (min-width: 1216px) {
+    max-width: 592px;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-05);
+  justify-content: center;
+  margin-bottom: var(--spacing-07);
+
+  @include breakpoint(desktop up) {
+    gap: var(--spacing-06);
+    width: 50%;
+    padding-right: var(--spacing-15);
+  }
+}
+
+.category {
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.title {
+  @extend %font-style-h4;
+
+  @include breakpoint(desktop up) {
+    padding: 0 var(--spacing-15) 0 32px;
+  }
+}
+
+.titleLink {
+  @extend %link-block;
+  @extend %underline;
+}

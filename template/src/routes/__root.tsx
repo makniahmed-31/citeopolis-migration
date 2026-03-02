@@ -3,6 +3,7 @@ import { Suspense, useMemo } from "react";
 import { resolveComponent } from "@/lib/componentRegistry";
 import { useTheme } from "@/lib/theme";
 import Footer from "@/components/layout/Footer";
+import MinisiteDevBar from "@/components/dev/MinisiteDevBar";
 
 /**
  * Root layout — wraps every page with Header and Footer.
@@ -29,6 +30,7 @@ function RootLayout() {
 
   return (
     <div id="top" className="site-wrapper">
+      <MinisiteDevBar />
       <a href="#main" className="sr-only">
         Aller au contenu principal
       </a>
