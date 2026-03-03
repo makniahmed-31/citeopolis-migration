@@ -29,7 +29,9 @@ export default function FlashInfoBar() {
 }
 
 function FlashInfoBarContent() {
-  const { data } = useQuery<{ flashInfoSearch: { items: FlashInfoItem[] } }>(GET_FLASH_INFOS);
+  const { data } = useQuery<{ flashInfoSearch: { items: FlashInfoItem[] } }>(
+    GET_FLASH_INFOS,
+  );
   const items = data?.flashInfoSearch?.items;
   if (!items?.length) return null;
   return <FlashInfoBanner flashInfos={items} />;

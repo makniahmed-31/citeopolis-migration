@@ -18,11 +18,27 @@ const NEWS_QUERY = gql`
         modifiedDate
         structuredContent
         images {
-          ratio_3x2 { url width height alt }
+          ratio_3x2 {
+            url
+            width
+            height
+            alt
+          }
         }
-        categories { title level }
-        breadcrumbs { items { title url } }
-        metadata { title description }
+        categories {
+          title
+          level
+        }
+        breadcrumbs {
+          items {
+            title
+            url
+          }
+        }
+        metadata {
+          title
+          description
+        }
       }
     }
   }
@@ -33,11 +49,10 @@ interface NewsPageProps {
 }
 
 export default function NewsPage({ url }: NewsPageProps) {
-  const { data, loading, error } = useQuery<{ route?: News }>(
-    NEWS_QUERY,
-    { variables: { url } }
-  );
-
+  const { data, loading, error } = useQuery<{ route?: News }>(NEWS_QUERY, {
+    variables: { url },
+  });
+  console.log("data", data);
   const news = data?.route?.__typename === "News" ? data.route : undefined;
 
   useEffect(() => {
@@ -46,11 +61,23 @@ export default function NewsPage({ url }: NewsPageProps) {
     }
   }, [news?.metadata?.title]);
 
-  if (loading) return <div className="sr-only" aria-live="polite">Chargement…</div>;
+  if (loading)
+    return (
+      <div className="sr-only" aria-live="polite">
+        Chargement…
+      </div>
+    );
   if (error) throw error;
   if (!news) return <NotFound />;
 
-  const { title, leadText, images, publicationDate, breadcrumbs, structuredContent } = news;
+  const {
+    title,
+    leadText,
+    images,
+    publicationDate,
+    breadcrumbs,
+    structuredContent,
+  } = news;
   const image = images?.ratio_3x2;
 
   const surtitle = news.categories
@@ -63,11 +90,13 @@ export default function NewsPage({ url }: NewsPageProps) {
       {breadcrumbs.items.length > 0 && (
         <nav aria-label="Fil d'Ariane" className={styles.breadcrumbs}>
           <ol className={styles.breadcrumbsList}>
-            {breadcrumbs.items.map((item: { title: string; url: string }, i: number) => (
-              <li key={i}>
-                <a href={item.url}>{item.title}</a>
-              </li>
-            ))}
+            {breadcrumbs.items.map(
+              (item: { title: string; url: string }, i: number) => (
+                <li key={i}>
+                  <a href={item.url}>{item.title}</a>
+                </li>
+              ),
+            )}
           </ol>
         </nav>
       )}
@@ -90,7 +119,13 @@ export default function NewsPage({ url }: NewsPageProps) {
         </div>
         {image && (
           <div className={styles.headingImage}>
-            <Image src={image.url} width={image.width} height={image.height} alt={image.alt} priority />
+            <Image
+              src={image.url}
+              width={image.width}
+              height={image.height}
+              alt={image.alt ?? ""}
+              priority
+            />
           </div>
         )}
       </header>

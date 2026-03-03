@@ -41,7 +41,6 @@ export default function PagePage({ url }: PagePageProps) {
     );
   if (error) throw error;
   if (!data?.page) return <NotFound />;
-  console.log("data.page.structuredContent", data.page.structuredContent);
   return (
     <div className="layout-1column-fullwidth">
       <div className="column main">
