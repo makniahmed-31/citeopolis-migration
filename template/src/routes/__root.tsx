@@ -35,10 +35,10 @@ function RootLayout() {
       <a href="#main" className="sr-only">
         Aller au contenu principal
       </a>
+      <FlashInfoBar />
       <Suspense fallback={null}>
         <Header />
       </Suspense>
-      <FlashInfoBar />
       <main id="main" className="site-content" tabIndex={-1}>
         <Outlet />
       </main>

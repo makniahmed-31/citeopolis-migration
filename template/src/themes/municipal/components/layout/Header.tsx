@@ -1,4 +1,3 @@
-import { useTheme } from "@/lib/theme";
 import styles from "./Header.module.scss";
 
 /**
@@ -9,13 +8,8 @@ import styles from "./Header.module.scss";
  * - Falls back to base Header if this file doesn't exist
  */
 export default function Header() {
-  const { theme } = useTheme();
-
   return (
     <header className={styles.header} role="banner">
-      <div className={styles.topBar}>
-        <span className={styles.themeBadge}>Thème : {theme}</span>
-      </div>
       <div className={styles.inner}>
         <a href="/" className={styles.logo} aria-label="Accueil">
           <span className={styles.logoIcon} aria-hidden>

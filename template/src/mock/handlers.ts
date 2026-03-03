@@ -95,12 +95,57 @@ function mockFlashInfos() {
   return [
     {
       __typename: "FlashInfo",
-      id: 1,
-      modifiedDate: "2026-03-01",
-      title: "Travaux rue de la République du 25 au 28 juin.",
+      id: 101,
+      modifiedDate: "2026-03-02T08:30:00Z",
+      title: "Coupure d’eau secteur centre-ville",
       description:
-        "Des travaux de réfection de la chaussée auront lieu cette semaine. Prévoir des ralentissements.",
+        "Une intervention technique entraînera une coupure d’eau aujourd’hui de 09h00 à 12h00 dans le centre-ville. Merci de votre compréhension.",
       url: null,
+    },
+    {
+      __typename: "FlashInfo",
+      id: 102,
+      modifiedDate: "2026-03-02T07:10:00Z",
+      title: "Fermeture exceptionnelle de la mairie",
+      description:
+        "La mairie sera exceptionnellement fermée vendredi après-midi. Réouverture lundi à 08h30.",
+      url: null,
+    },
+    {
+      __typename: "FlashInfo",
+      id: 103,
+      modifiedDate: "2026-03-01T18:45:00Z",
+      title: "Collecte des déchets avancée d’un jour",
+      description:
+        "En raison d’un jour férié, la collecte des déchets ménagers est avancée au jeudi matin pour les quartiers nord.",
+      url: "/services/dechets",
+    },
+    {
+      __typename: "FlashInfo",
+      id: 104,
+      modifiedDate: "2026-02-28T14:00:00Z",
+      title: "Inscription cantine scolaire ouverte",
+      description:
+        "Les inscriptions à la cantine pour le trimestre prochain sont ouvertes jusqu’au 15 mars. Effectuez votre demande en ligne.",
+      url: "/famille/cantine",
+    },
+    {
+      __typename: "FlashInfo",
+      id: 105,
+      modifiedDate: "2026-02-27T09:20:00Z",
+      title: "Travaux rue de la République",
+      description:
+        "Des travaux de réfection de la chaussée auront lieu du 3 au 7 mars. Circulation alternée mise en place.",
+      url: null,
+    },
+    {
+      __typename: "FlashInfo",
+      id: 106,
+      modifiedDate: "2026-02-26T11:15:00Z",
+      title: "Alerte météo – vents forts",
+      description:
+        "Des rafales jusqu’à 90 km/h sont prévues cette nuit. Évitez les déplacements non nécessaires et sécurisez les objets extérieurs.",
+      url: "https://vigilance.meteofrance.fr",
     },
   ];
 }

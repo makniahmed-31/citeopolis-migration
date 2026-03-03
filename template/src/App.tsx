@@ -32,7 +32,6 @@ function AppContent() {
   const { data } = useQuery(SITE_CONFIG_QUERY, {
     errorPolicy: "all",
   });
-  console.log("data", data);
   const hostname =
     typeof window !== "undefined" ? window.location.hostname : "localhost";
   const localConfig = resolveSiteConfig(hostname);

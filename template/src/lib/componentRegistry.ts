@@ -2,7 +2,7 @@ import { ComponentType, lazy } from "react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type ComponentLoader = () => Promise<{ default: ComponentType<never> }>;
+type ComponentLoader = () => Promise<{ default: ComponentType<any> }>;
 
 export interface ThemeManifest {
   /** Parent theme name — used to walk the inheritance chain. null = root. */
@@ -20,7 +20,7 @@ export interface ThemeManifest {
  */
 const rawManifests = import.meta.glob<{ default: ThemeManifest }>(
   "../themes/*/theme.manifest.ts",
-  { eager: true }
+  { eager: true },
 );
 
 // Build registry: { "municipal": ThemeManifest, "base": ThemeManifest }
@@ -33,16 +33,31 @@ for (const [path, mod] of Object.entries(rawManifests)) {
 // ─── Default component loaders (src/components/ fallback) ─────────────────────
 
 const defaultLoaders: Record<string, ComponentLoader> = {
-  "layout/Header": () => import("@/components/layout/Header"),
-  "layout/Footer": () => import("@/components/layout/Footer"),
-  "system/NotFound": () => import("@/components/system/NotFound"),
-  "system/ErrorBoundary": () => import("@/components/system/ErrorBoundary"),
+  "layout/Header": () =>
+    import("@/components/layout/Header") as Promise<{
+      default: ComponentType<any>;
+    }>,
+
+  "layout/Footer": () =>
+    import("@/components/layout/Footer") as Promise<{
+      default: ComponentType<any>;
+    }>,
+
+  "system/NotFound": () =>
+    import("@/components/system/NotFound") as Promise<{
+      default: ComponentType<any>;
+    }>,
+
+  "system/ErrorBoundary": () =>
+    import("@/components/system/ErrorBoundary") as Promise<{
+      default: ComponentType<any>;
+    }>,
 };
 
 // ─── Resolution ───────────────────────────────────────────────────────────────
 
 /** Cache prevents re-creating lazy() wrappers on every render. */
-const cache = new Map<string, ComponentType<never>>();
+const cache = new Map<string, ComponentType<unknown>>();
 
 /**
  * Resolves a component path against the active theme chain.
@@ -58,7 +73,7 @@ const cache = new Map<string, ComponentType<never>>();
  */
 export function resolveComponent<T = Record<string, unknown>>(
   componentPath: string,
-  theme: string
+  theme: string,
 ): ComponentType<T> {
   const key = `${theme}:${componentPath}`;
 
@@ -72,7 +87,7 @@ export function resolveComponent<T = Record<string, unknown>>(
     const loader = registry[themeName]?.overrides[componentPath];
     if (loader) {
       const component = lazy(loader) as ComponentType<T>;
-      cache.set(key, component as ComponentType<never>);
+      cache.set(key, component as ComponentType<unknown>);
       return component;
     }
   }
@@ -81,12 +96,12 @@ export function resolveComponent<T = Record<string, unknown>>(
   const defaultLoader = defaultLoaders[componentPath];
   if (defaultLoader) {
     const component = lazy(defaultLoader) as ComponentType<T>;
-    cache.set(key, component as ComponentType<never>);
+    cache.set(key, component as ComponentType<unknown>);
     return component;
   }
 
   throw new Error(
-    `[componentRegistry] Component not found: "${componentPath}" for theme "${theme}"`
+    `[componentRegistry] Component not found: "${componentPath}" for theme "${theme}"`,
   );
 }
 
