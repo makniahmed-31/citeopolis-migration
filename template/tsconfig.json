@@ -9,5 +9,5 @@
       "@components/*": ["./src/components/*"]
     }
   },
-  "include": ["src", "sites", "src/types", "../codegen.ts", "../packages/*/src"]
+  "include": ["src", "sites", "src/types", "../packages/*/src", "codegen.ts"]
 }

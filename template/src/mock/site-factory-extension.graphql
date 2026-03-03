@@ -6,6 +6,7 @@
 #
 # When the upstream schema adds them this file can be removed.
 extend type SiteConfig {
+  siteName: String
   """
   The active theme slug for this site (e.g. "municipal", "metropolis").
   Resolved by the backend from the request's Host header.

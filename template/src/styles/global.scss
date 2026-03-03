@@ -13,6 +13,7 @@
 //        The active theme is set at runtime via applyTheme() in main.tsx.
 @use "../themes/municipal/tokens/index" as municipal-tokens;
 @use "../themes/metropolitain/tokens/index" as metropolitain-tokens;
+@use "../themes/metropolis/tokens/index" as metropolis-tokens;
 
 // ─── 4. Base Styles (theme-agnostic) ─────────────────────────────────────────
 @use "lib/reset";

@@ -1,0 +1,7 @@
+// METROPOLIS THEME — Override the 3 base brand colors only.
+// Full 50–800 palettes auto-generate via OKLCH relative color syntax in base/_color.scss.
+:root[data-theme="metropolis"] {
+  --color-primary:   #e63946;
+  --color-secondary: #1b263b;
+  --color-tertiary:  #f7b731;
+}

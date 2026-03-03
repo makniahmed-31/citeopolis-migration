@@ -3,10 +3,7 @@ import { useQuery } from "@apollo/client/react";
 import { RouterProvider } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { getApolloClient } from "@/lib/graphql";
-import {
-  SITE_CONFIG_QUERY,
-  type SiteConfigQueryResult,
-} from "@/lib/siteConfig";
+import { SITE_CONFIG_QUERY } from "@/lib/siteConfig";
 import { applyTheme, FeaturesContext, ThemeContext } from "@/lib/theme";
 import { resolveSiteConfig } from "@/lib/siteConfigs";
 import { router } from "@/router";
@@ -32,10 +29,10 @@ export default function App() {
  * `theme`/`features` (schema extension not deployed upstream).
  */
 function AppContent() {
-  const { data } = useQuery<SiteConfigQueryResult>(SITE_CONFIG_QUERY, {
+  const { data } = useQuery(SITE_CONFIG_QUERY, {
     errorPolicy: "all",
   });
-
+  console.log("data", data);
   const hostname =
     typeof window !== "undefined" ? window.location.hostname : "localhost";
   const localConfig = resolveSiteConfig(hostname);

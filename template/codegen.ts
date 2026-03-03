@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import type { CodegenConfig } from "@graphql-codegen/cli";
 import assert from "node:assert";
 import process from "node:process";

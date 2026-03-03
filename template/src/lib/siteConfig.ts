@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client/core";
+import { graphql } from "@/generated/graphql";
 
 /**
  * Site factory query.
@@ -8,7 +8,7 @@ import { gql } from "@apollo/client/core";
  * @citeopolis-graphql/schema yet — they will be added when the BE implements
  * the site factory API. The mock layer returns them today.
  */
-export const SITE_CONFIG_QUERY = gql`
+export const SITE_CONFIG_QUERY = graphql(`
   query GetSiteConfig {
     siteConfig {
       siteName
@@ -16,14 +16,4 @@ export const SITE_CONFIG_QUERY = gql`
       features
     }
   }
-`;
-
-export interface SiteConfigQueryResult {
-  siteConfig?: {
-    siteName?: string | null;
-    /** Active theme slug. Null until BE implements the site factory. */
-    theme?: string | null;
-    /** Enabled feature-module slugs. Empty = all allowed (dev default). */
-    features?: string[] | null;
-  } | null;
-}
+`);
