@@ -12,6 +12,7 @@
     "clsx": "^2.1.1"
   },
   "peerDependencies": {
+    "@apollo/client": ">=4",
     "@tanstack/react-router": ">=1",
     "react": ">=19.0.0"
   }

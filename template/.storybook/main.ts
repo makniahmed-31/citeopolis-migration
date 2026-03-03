@@ -1,6 +1,7 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 import path from "node:path";
 import svgr from "vite-plugin-svgr";
+import { modulesPlugin } from "../src/lib/vite-plugin-modules";
 import { themePlugin } from "../src/lib/vite-plugin-theme";
 
 const STORYBOOK_THEME = process.env.THEME ?? "base";
@@ -40,6 +41,7 @@ const config: StorybookConfig = {
     config.plugins = config.plugins ?? [];
     config.plugins.push(
       svgr({ include: /\.svg$/ }),
+      modulesPlugin(path.resolve(import.meta.dirname, "..")),
       themePlugin({ theme: STORYBOOK_THEME, site: STORYBOOK_SITE })
     );
 

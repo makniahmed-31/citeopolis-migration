@@ -130,7 +130,6 @@ export default function FlashInfoCarousel({ flashInfos }: FlashInfoCarouselProps
           firstSlideMessage: "Première info",
           lastSlideMessage: "Dernière info",
           slideLabelMessage: "{{index}} sur {{slidesLength}}",
-          inertInvisibleSlides: true,
         }}
       >
         {flashInfos.map((item, index) => (

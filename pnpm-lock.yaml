@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@types/react':
+        specifier: ^19.2.14
+        version: 19.2.14
       typescript:
         specifier: ^5.7.3
         version: 5.9.3
@@ -44,6 +47,9 @@ importers:
 
   packages/news:
     dependencies:
+      '@apollo/client':
+        specifier: '>=4'
+        version: 4.1.6(graphql-ws@6.0.7(graphql@16.13.0)(ws@8.19.0))(graphql@16.13.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rxjs@7.8.2)
       '@tanstack/react-router':
         specifier: '>=1'
         version: 1.163.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)

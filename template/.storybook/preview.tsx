@@ -1,5 +1,12 @@
 /* eslint-disable unicorn/filename-case */
 import type { Preview } from "@storybook/react-vite";
+import {
+  createMemoryHistory,
+  createRootRoute,
+  createRouter,
+  RouterProvider,
+  Outlet,
+} from "@tanstack/react-router";
 import { applyTheme } from "../src/lib/theme";
 import "../src/styles/global.scss";
 
@@ -53,6 +60,15 @@ const preview: Preview = {
   tags: ["autodocs"],
 
   decorators: [
+    // Provide a TanStack Router context — required by any component using Link
+    (Story) => {
+      const rootRoute = createRootRoute({ component: Story });
+      const router = createRouter({
+        routeTree: rootRoute,
+        history: createMemoryHistory({ initialEntries: ["/"] }),
+      });
+      return <RouterProvider router={router} />;
+    },
     // Switch active theme via data-theme attribute on <html>
     (Story, context) => {
       const theme = (context.globals["theme"] as Theme) ?? "base";

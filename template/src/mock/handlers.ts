@@ -30,7 +30,14 @@ function mockNewsBlock() {
       publicationDate: "2026-02-15",
       leadText:
         "Le centre culturel municipal ouvre ses portes ce samedi avec une journée portes ouvertes.",
-      images: null,
+      images: {
+        ratio_3x2: {
+          url: "https://picsum.photos/seed/news1/800/533",
+          width: 800,
+          height: 533,
+          alt: "Centre culturel",
+        },
+      },
       categories: [{ __typename: "NewsCategory", title: "Culture" }],
     },
     news: [
@@ -41,8 +48,17 @@ function mockNewsBlock() {
         url: "/actualites/budget-participatif-2026",
         publicationDate: "2026-02-10",
         leadText: null,
-        images: null,
-        categories: [{ __typename: "NewsCategory", title: "Démocratie locale" }],
+        images: {
+          ratio_3x2: {
+            url: "https://picsum.photos/seed/news2/800/533",
+            width: 800,
+            height: 533,
+            alt: "Budget participatif",
+          },
+        },
+        categories: [
+          { __typename: "NewsCategory", title: "Démocratie locale" },
+        ],
       },
       {
         __typename: "News",
@@ -51,7 +67,14 @@ function mockNewsBlock() {
         url: "/actualites/travaux-rue-republique",
         publicationDate: "2026-02-05",
         leadText: null,
-        images: null,
+        images: {
+          ratio_3x2: {
+            url: "https://picsum.photos/seed/news1/800/533",
+            width: 800,
+            height: 533,
+            alt: "Centre culturel",
+          },
+        },
         categories: [{ __typename: "NewsCategory", title: "Voirie" }],
       },
     ],
@@ -95,14 +118,22 @@ function mockAlbumsBlock() {
         id: "album-1",
         title: "Fête de la Musique 2025",
         url: "/albums/fete-musique-2025",
-        images: null,
+        coverImage: {
+          url: "https://picsum.photos/seed/album1/400/300",
+          alt: "Fête de la Musique",
+        },
+        count: 42,
       },
       {
         __typename: "Album",
         id: "album-2",
         title: "Inauguration du parc central",
         url: "/albums/inauguration-parc-central",
-        images: null,
+        coverImage: {
+          url: "https://picsum.photos/seed/album2/400/300",
+          alt: "Parc central",
+        },
+        count: 28,
       },
     ],
   };
@@ -114,7 +145,7 @@ function mockAlbumsBlock() {
  */
 function buildMockBlocks(features: string[]) {
   const blocks = [];
-  if (features.includes("news"))   blocks.push(mockNewsBlock());
+  if (features.includes("news")) blocks.push(mockNewsBlock());
   if (features.includes("albums")) blocks.push(mockAlbumsBlock());
   return blocks;
 }
@@ -183,11 +214,17 @@ function getMockResponse(
 
     case "GetFlashInfos": {
       const siteConfig = resolveSiteConfig(getHostname());
-      const items = siteConfig.features.includes("flash-info") ? mockFlashInfos() : [];
-      return { data: { flashInfoSearch: { items, __typename: "FlashInfoSearchResponse" } } };
+      const items = siteConfig.features.includes("flash-info")
+        ? mockFlashInfos()
+        : [];
+      return {
+        data: {
+          flashInfoSearch: { items, __typename: "FlashInfoSearchResponse" },
+        },
+      };
     }
 
-        default:
+    default:
       console.warn(`[mock] Unhandled operation: ${operationName}`, variables);
       return {
         data: null,
